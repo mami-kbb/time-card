@@ -13,6 +13,7 @@ services:
 
   php:
     build: ./docker/php
+    user: "${UID}:${GID}"
     volumes:
       - ./src:/var/www/
 
@@ -40,3 +41,9 @@ services:
       - mysql
     ports:
       - 8080:80
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"

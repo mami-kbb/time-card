@@ -1,0 +1,13 @@
+# Laravel
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+/.env
+/.env.*
+
+# Docker / DB
+/docker/mysql/data
+
+# OS
+.DS_Store

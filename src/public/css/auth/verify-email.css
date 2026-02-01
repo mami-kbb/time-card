@@ -1,0 +1,50 @@
+.verify-email {
+    margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.verify-email>* {
+    width: 720px;
+}
+
+.verify-email__message {
+    margin-bottom: 50px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.verify-email a {
+    display: block;
+    box-sizing: border-box;
+    width: 257px;
+    height: 69px;
+    padding: 12px 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    background-color: #D9D9D9;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+.verify-email form {
+    width: 257px;
+    text-align: center;
+}
+
+.verify-email button {
+    margin-top: 60px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #0073CC;
+    text-align: center;
+    cursor: pointer;
+}

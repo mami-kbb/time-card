@@ -1,0 +1,58 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    width: 100%;
+    background-color: #000;
+}
+
+.header-inner {
+    max-width: 1380px;
+    height: 80px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px 0 20px;
+}
+
+.header__heading {
+    margin: 0;
+    align-items: center;
+}
+
+.header__nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.header-nav__content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.header-nav__btn {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 400;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+input {
+    font-size: 22px;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.form__error {
+    color: red;
+    font-size: 20px;
+    padding: 10px 0;
+}
