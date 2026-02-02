@@ -25,5 +25,6 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/attendance', [AttendanceController::class, 'attendance']);
+    Route::get('/attendance', [AttendanceController::class, 'clock']);
+    Route::post('/attendance',[AttendanceController::class, 'stamp']);
 });

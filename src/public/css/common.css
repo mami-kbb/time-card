@@ -44,6 +44,9 @@ html, body {
     border: none;
     cursor: pointer;
 }
+.content {
+    width: 100%;
+}
 
 input {
     font-size: 22px;

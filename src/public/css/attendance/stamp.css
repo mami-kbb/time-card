@@ -1,0 +1,85 @@
+.stamp-content {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #F0EFF2;
+}
+
+.status-content {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status {
+    width: 100px;
+    height: 40px;
+    margin-top: 200px;
+    margin-bottom: 20px;
+    background-color: #c8c8c8;
+    border-radius: 50px;
+    font-size: 18px;
+    color: #696969;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.date {
+    margin: 10px auto;
+    font-size: 30px;
+}
+
+.time {
+    font-size: 80px;
+    font-weight: bold;
+    margin: 20px auto;
+}
+
+.stamp-form {
+    width: auto;
+    margin: 0;
+    text-align: center;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+.form-btn {
+    width: 221px;
+    height: 77px;
+    margin: 20px auto;
+}
+
+.form-btn__submit {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    font-size: 32px;
+    font-weight: bold;
+    background-color: #000;
+    color: #fff;
+    border: none;
+}
+
+.break-form-btn__submit {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    font-size: 32px;
+    font-weight: bold;
+    background-color: #fff;
+    color: #000;
+    border: none;
+}
+
+.message {
+    font-size: 26px;
+    font-weight: bold;
+}
