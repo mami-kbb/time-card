@@ -54,8 +54,17 @@ class AttendanceController extends Controller
             case 'start';
                 break;
             case 'end';
+                if ($attendance->end_time) {
+                    return redirect()->back();
+                }
+
                 $attendance->update([
                     'end_time' => now(),
+                ]);
+
+                $attendance->update([
+                    'total_break_time' => $attendance->calculateTotalBreakTime(),
+                    'total_time' => $attendance->calculateTotalWorkTime(),
                 ]);
                 break;
             case 'break_start';
@@ -74,5 +83,34 @@ class AttendanceController extends Controller
                 break;
         }
         return redirect()->back();
+    }
+
+    public function index(Request $request)
+    {
+        $userId = Auth::id();
+
+        $currentMonth = $request->input('month')
+        ? Carbon::createFromFormat('Y-m', $request->month)
+        : Carbon::now();
+
+        $startOfMonth = $currentMonth->copy()->startOfMonth();
+        $endOfMonth = $currentMonth->copy()->endOfMonth();
+
+        $attendances = Attendance::where('user_id', $userId)
+        ->whereBetween('work_date', [$startOfMonth, $endOfMonth])
+        ->get()
+        ->keyBy(function ($item) {
+            return $item->work_date->format('Y-m-d');
+        });
+
+        $dates = [];
+        for ($date = $startOfMonth->copy(); $date <= $endOfMonth; $date->addDay()) {
+            $dates[] = [
+                'date' => $date->copy(),
+                'attendance' => $attendances[$date->format('Y-m-d')] ?? null,
+            ];
+        }
+
+        return view('attendance.index', compact('dates', 'currentMonth'));
     }
 }

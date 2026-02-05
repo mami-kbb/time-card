@@ -57,7 +57,7 @@
                 @csrf
                 <input type="hidden" name="action" value="break_start">
                 <div class="form-btn">
-                    <button class="break-form-btn__submit" type="submit">休憩入り</button>
+                    <button class="break-form-btn__submit" type="submit">休憩入</button>
                 </div>
             </form>
         </div>
@@ -69,7 +69,7 @@
             @csrf
             <input type="hidden" name="action" value="break_end">
             <div class="form-btn">
-                <button class="break-form-btn__submit" type="submit">休憩戻り</button>
+                <button class="break-form-btn__submit" type="submit">休憩戻</button>
             </div>
         </form>
         @break

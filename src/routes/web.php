@@ -27,4 +27,5 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'clock']);
     Route::post('/attendance',[AttendanceController::class, 'stamp']);
+    Route::get('/attendance/list', [AttendanceController::class, 'index']);
 });

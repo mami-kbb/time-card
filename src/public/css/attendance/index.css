@@ -1,0 +1,147 @@
+* {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.list-content {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0 auto;
+    background-color: #F0EFF2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.list-header span {
+    margin-right: 10px;
+    width: 40px;
+    height: 0;
+    border: 8px solid #000;
+    transform: rotate(90deg);
+}
+
+.list-header {
+    width: 910px;
+    margin: 0;
+    padding-top: 90px;
+    font-size: 30px;
+}
+
+.month-list {
+    margin-top: 30px;
+    width: 900px;
+    align-items: center;
+}
+
+.month-header {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    border: none;
+    border-radius: 10px;
+    background-color: #fff;
+    align-items: center;
+}
+
+.previous-month, .next-month {
+    color: #737373;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.left-arrow__img,
+.right-arrow__img {
+    width: 20px;
+    height: 15px;
+    opacity: 0.3;
+}
+
+.left-arrow__img {
+    margin: 0 5px 0 20px;
+}
+
+.right-arrow__img {
+    transform: rotate(180deg);
+    margin: 0 20px 0 5px;
+}
+
+.calender__img {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+}
+
+.month {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.month-text {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.month-select-form-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.attendance-logs__table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    background-color: #fff;
+    margin-top: 40px;
+    color: #737373;
+    table-layout: fixed;
+}
+
+.attendance-logs__table td,
+.attendance-logs__table th {
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 0;
+}
+
+.attendance-logs__table--header-date,
+.attendance-logs__table td:nth-child(1) {
+    width: 120px;
+}
+
+.attendance-logs__table--header-start,
+.attendance-logs__table td:nth-child(2),
+.attendance-logs__table--header-end,
+.attendance-logs__table td:nth-child(3) {
+    width: 100px;
+}
+
+.attendance-logs__table th,
+.attendance-logs__table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px 0;
+}
+
+.attendance-logs__table thead tr {
+    border-bottom: 3px solid #E1E1E1;
+}
+
+.attendance-logs__table tbody tr {
+    border-bottom: 1px solid #E1E1E1;
+}
+
+.attendance-logs__table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.attendance-logs__table-detail {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}

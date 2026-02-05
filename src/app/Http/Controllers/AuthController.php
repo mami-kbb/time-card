@@ -8,8 +8,4 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    public function attendance()
-    {
-        return view('attendance.index');
-    }
 }
