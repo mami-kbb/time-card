@@ -75,9 +75,11 @@
 
 .month {
     position: relative;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
 }
 
 .month-text {
@@ -85,10 +87,15 @@
     font-weight: bold;
 }
 
+.month-text, .calender__img {
+    pointer-events: none;
+}
+
 .month-select-form-input {
     position: absolute;
     inset: 0;
     opacity: 0;
+    z-index: 1;
     cursor: pointer;
 }
 
@@ -97,9 +104,15 @@
     border-collapse: collapse;
     border-radius: 10px;
     background-color: #fff;
-    margin-top: 40px;
+    margin: 40px auto;
     color: #737373;
     table-layout: fixed;
+}
+
+.attendance-logs__table--row {
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 20px;
 }
 
 .attendance-logs__table td,
@@ -107,37 +120,32 @@
     font-size: 16px;
     line-height: 1;
     letter-spacing: 0;
-}
-
-.attendance-logs__table--header-date,
-.attendance-logs__table td:nth-child(1) {
-    width: 120px;
-}
-
-.attendance-logs__table--header-start,
-.attendance-logs__table td:nth-child(2),
-.attendance-logs__table--header-end,
-.attendance-logs__table td:nth-child(3) {
-    width: 100px;
-}
-
-.attendance-logs__table th,
-.attendance-logs__table td {
     text-align: center;
     vertical-align: middle;
-    padding: 10px 0;
+    padding: 15px 0;
 }
 
 .attendance-logs__table thead tr {
+    height: 31px;
     border-bottom: 3px solid #E1E1E1;
 }
 
 .attendance-logs__table tbody tr {
+    height: 33px;
     border-bottom: 1px solid #E1E1E1;
 }
 
 .attendance-logs__table tbody tr:last-child {
     border-bottom: none;
+}
+
+.attendance-logs__table--header-date, .attendance-logs__table--content-day {
+    width: 93px;
+    text-align: left;
+}
+
+.attendance-logs__table--header-start, .attendance-logs__table--header-end, .attendance-logs__table--header-break, .attendance-logs__table--header-total, .attendance-logs__table--content-start, .attendance-logs__table--content-end, .attendance-logs__table--content-break, .attendance-logs__table--content-total {
+    width: 55px;
 }
 
 .attendance-logs__table-detail {

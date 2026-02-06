@@ -113,4 +113,9 @@ class AttendanceController extends Controller
 
         return view('attendance.index', compact('dates', 'currentMonth'));
     }
+
+    public function show()
+    {
+        
+    }
 }

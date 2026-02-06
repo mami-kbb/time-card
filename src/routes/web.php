@@ -28,4 +28,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'clock']);
     Route::post('/attendance',[AttendanceController::class, 'stamp']);
     Route::get('/attendance/list', [AttendanceController::class, 'index']);
+    Route::get('/attendance/detail/{param}', [AttendanceController::class, 'show']);
 });
