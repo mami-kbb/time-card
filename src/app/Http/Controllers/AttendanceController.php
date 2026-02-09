@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Attendance;
 use App\Models\AttendanceBreak;
+use App\Models\Application;
+use Illuminate\Bus\PendingBatch;
 use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
@@ -114,8 +116,33 @@ class AttendanceController extends Controller
         return view('attendance.index', compact('dates', 'currentMonth'));
     }
 
-    public function show()
+    public function show($date)
     {
-        
+        $user = Auth::user();
+
+        $day = [
+            'date' => Carbon::parse($date),
+        ];
+
+        $attendance = Attendance::with(['attendanceBreaks', 'applications'])
+        ->where('user_id', auth()->id())
+        ->whereDate('work_date', $date)
+        ->first();
+
+        if (!$attendance) {
+            $attendance = Attendance::create([
+                'user_id' => auth()->id(),
+                'work_date' => $date,
+            ]);
+        }
+
+        $break1 = $attendance->attendanceBreaks->get(0);
+        $break2 = $attendance->attendanceBreaks->get(1);
+
+        $application = $attendance->applications()->latest()->first();
+
+        $isPending = $application?->first()?->approval_status === 0;
+
+        return view('attendance.show', compact('user', 'day', 'attendance', 'break1', 'break2', 'application', 'isPending'));
     }
 }

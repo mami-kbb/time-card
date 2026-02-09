@@ -28,12 +28,13 @@ class Attendance extends Model
 
     public function attendanceBreaks()
     {
-        return $this->hasMany(AttendanceBreak::class);
+        return $this->hasMany(AttendanceBreak::class)->orderBy('break_start_time');
     }
 
     public function applications()
     {
-        return $this->hasMany(Application::class);
+        return $this->hasMany(Application::class)
+        ->latest();
     }
 
     public function user()

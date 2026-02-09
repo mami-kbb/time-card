@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\StampController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,5 +29,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'clock']);
     Route::post('/attendance',[AttendanceController::class, 'stamp']);
     Route::get('/attendance/list', [AttendanceController::class, 'index']);
-    Route::get('/attendance/detail/{param}', [AttendanceController::class, 'show']);
+    Route::get('/attendance/detail/{date}', [AttendanceController::class, 'show']);
+    Route::post('/attendance/detail/{date}', [StampController::class, 'store']);
 });
