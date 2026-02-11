@@ -85,13 +85,21 @@
 
 .year {
     margin-left: 25px;
-    margin-right: 150px;
+    margin-right: 100px;
 }
 
-.form__input-time, .form__input-break {
+.form__input-time, .form__input-break, .time-content{
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+
+.time-content-display {
+    margin-left: 20px;
+}
+
+.time-content-display span {
+    margin: 0 50px;
 }
 
 .start-time, .end-time, .break-start, .break-end {
@@ -128,8 +136,21 @@ input[type="time"]::-webkit-inner-spin-button {
     font-weight: bold;
 }
 
-input:disabled,
+.form__group--comment.is-pending {
+    min-height: 40px;
+    height: auto;
+    padding: 20px 0;
+    align-items: center;
+}
+
+.form__group--comment.is-pending textarea {
+    min-height: auto;
+    height: auto;
+}
+
 textarea:disabled {
+    padding: 0 10px;
+    align-content: center;
     border: none;
     background-color: #fff;
     cursor: not-allowed;

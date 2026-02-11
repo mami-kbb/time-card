@@ -106,11 +106,20 @@ class AttendanceController extends Controller
         });
 
         $dates = [];
+
         for ($date = $startOfMonth->copy(); $date <= $endOfMonth; $date->addDay()) {
+
+            $attendance = $attendances[$date->format('Y-m-d')] ?? null;
+
+            if ($attendance && is_null($attendance->start_time) && is_null($attendance->end_time)) {
+                $attendance = null;
+            }
+
             $dates[] = [
                 'date' => $date->copy(),
-                'attendance' => $attendances[$date->format('Y-m-d')] ?? null,
+                'attendance' => $attendance,
             ];
+
         }
 
         return view('attendance.index', compact('dates', 'currentMonth'));
@@ -129,11 +138,31 @@ class AttendanceController extends Controller
         ->whereDate('work_date', $date)
         ->first();
 
-        $breaks = $attendance?->attendanceBreaks ?? collect();
-
         $application = $attendance?->applications()->latest()->first();
         $isPending = $application?->approval_status === 0;
 
-        return view('attendance.show', compact('user', 'day', 'attendance', 'breaks',  'application', 'isPending'));
+        if ($isPending) {
+            $displayStartTime = $application?->new_start_time;
+            $displayEndTime   = $application?->new_end_time;
+            $displayBreaks    = $application?->applicationBreaks ?? collect();
+            $isEditable       = false;
+        } else {
+            $displayStartTime = $attendance?->start_time;
+            $displayEndTime   = $attendance?->end_time;
+            $displayBreaks    = $attendance?->attendanceBreaks ?? collect();
+            $isEditable       = true;
+        }
+
+        return view('attendance.show', compact(
+            'user',
+            'day',
+            'attendance',
+            'application',
+            'displayStartTime',
+            'displayEndTime',
+            'displayBreaks',
+            'isEditable',
+            'isPending'
+        ));
     }
 }
