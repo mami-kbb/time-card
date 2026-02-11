@@ -38,36 +38,68 @@
                     </div>
                     <div class="form__group-content">
                         <div class="form__input-time">
-                            <input type="time" class="start-time" name="start_time" value="{{ old('start_time') ?? ($attendance?->start_time ? substr($attendance->start_time, 0, 5) : '') }}" {{ $isPending ? 'disabled' : '' }}>
+                            <input type="text" inputmode="numeric"
+                                pattern="[0-9:]*" class="start-time" name="new_start_time" value="{{ old('new_start_time') ?? optional($attendance?->start_time)->format('H:i') }}" {{ $isPending ? 'disabled' : '' }}>
                             <span>～</span>
-                            <input type="time" class="end-time" name="end_time" value="{{ old('end_time', optional($attendance)->end_time) }}" {{ $isPending ? 'disabled' : '' }}>
+                            <input type="text" inputmode="numeric"
+                                pattern="[0-9:]*" class="end-time" name="new_end_time" value="{{ old('new_end_time') ?? optional($attendance?->end_time)->format('H:i') }}" {{ $isPending ? 'disabled' : '' }}>
                         </div>
+
+                        @error('new_end_time')
+                        <div class="form__error">
+                            {{ $message }}
+                        </div>
+                        @enderror
+
                     </div>
                 </div>
+                @foreach ($breaks as $index => $break)
                 <div class="form__group form__group--break">
                     <div class="form__group-title">
-                        <p class="form__label-break1">休憩</p>
+                        <p class="form__label-break">{{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}</p>
                     </div>
                     <div class="form__group-content">
-                        <div class="form__input-break1">
-                            <input type="time" class="break-start" name="break1_start" value="{{ old('break1_start', optional($break1)->break_start_time) }}" {{ $isPending ? 'disabled' : '' }}>
+                        <div class="form__input-break">
+                            <input type="text" inputmode="numeric"
+                                pattern="[0-9:]*" class="break-start"
+                                name="breaks[{{ $index }}][new_break_start_time]" value="{{ old("breaks.$index.new_break_start_time") ?? optional($break->break_start_time)->format('H:i') }}" {{ $isPending ? 'disabled' : '' }}>
                             <span>～</span>
-                            <input type="time" class="break-end" name="break1_end" value="{{ old('break1_end', optional($break1)->break_end_time) }}" {{ $isPending ? 'disabled' : '' }}>
+                            <input type="text" inputmode="numeric"
+                                pattern="[0-9:]*" class="break-end" name="breaks[{{ $index }}][new_break_end_time]" value="{{ old("breaks.$index.new_break_end_time") ?? optional($break->break_end_time)->format('H:i') }}" {{ $isPending ? 'disabled' : '' }}>
                         </div>
+
+                        @error("breaks.$index.new_break_start_time")
+                        <div class="form__error">
+                            {{ $message }}
+                        </div>
+                        @enderror
+
                     </div>
                 </div>
+                @endforeach
+                @if (! $isPending)
                 <div class="form__group form__group--break">
                     <div class="form__group-title">
-                        <p class="form__label-break2">休憩２</p>
+                        <p class="form__label-break">{{ $breaks->count() === 0 ? '休憩' : '休憩' . ($breaks->count() + 1) }}</p>
                     </div>
                     <div class="form__group-content">
-                        <div class="form__input-break2">
-                            <input type="time" class="break-start" name="break2_start" value="{{ old('break2_start', optional($break2)->break_start_time) }}" {{ $isPending ? 'disabled' : '' }}>
+                        <div class="form__input-break">
+                            <input type="text" inputmode="numeric"
+                                pattern="[0-9:]*" class="break-start" name="breaks[{{ $breaks->count() }}][new_break_start_time]" value="{{ old("breaks.{$breaks->count()}.new_break_start_time") }}">
                             <span>～</span>
-                            <input type="time" class="break-end" name="break2_end" value="{{ old('break2_end', optional($break2)->break_end_time) }}" {{ $isPending ? 'disabled' : '' }}>
+                            <input type="text" inputmode="numeric"
+                                pattern="[0-9:]*" class="break-end" name="breaks[{{ $breaks->count() }}][new_break_end_time]" value="{{ old("breaks.{$breaks->count()}.new_break_end_time") }}">
                         </div>
+
+                        @error("breaks." . $breaks->count() . ".new_break_start_time")
+                        <div class="form__error">
+                            {{ $message }}
+                        </div>
+                        @enderror
+
                     </div>
                 </div>
+                @endif
                 <div class="form__group form__group--comment">
                     <div class="form__group-title">
                         <p class="form__label-comment">備考</p>
@@ -76,6 +108,13 @@
                         <div class="form__input-comment">
                             <textarea class="comment" name="comment" id="comment" {{ $isPending ? 'disabled' : '' }}>{{ old('comment', optional($application)->comment) }}</textarea>
                         </div>
+
+                        @error('comment')
+                        <div class="form__error">
+                            {{ $message }}
+                        </div>
+                        @enderror
+
                     </div>
                 </div>
             </div>

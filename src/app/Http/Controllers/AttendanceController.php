@@ -129,20 +129,11 @@ class AttendanceController extends Controller
         ->whereDate('work_date', $date)
         ->first();
 
-        if (!$attendance) {
-            $attendance = Attendance::create([
-                'user_id' => auth()->id(),
-                'work_date' => $date,
-            ]);
-        }
+        $breaks = $attendance?->attendanceBreaks ?? collect();
 
-        $break1 = $attendance->attendanceBreaks->get(0);
-        $break2 = $attendance->attendanceBreaks->get(1);
+        $application = $attendance?->applications()->latest()->first();
+        $isPending = $application?->approval_status === 0;
 
-        $application = $attendance->applications()->latest()->first();
-
-        $isPending = $application?->first()?->approval_status === 0;
-
-        return view('attendance.show', compact('user', 'day', 'attendance', 'break1', 'break2', 'application', 'isPending'));
+        return view('attendance.show', compact('user', 'day', 'attendance', 'breaks',  'application', 'isPending'));
     }
 }

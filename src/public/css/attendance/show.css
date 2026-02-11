@@ -51,9 +51,18 @@
     font-weight: bold;
 }
 
+.form__group--time, .form__group--break {
+    min-height: 40px;
+    height: auto;
+    padding: 20px 0;
+    align-items: center;
+}
+
 .form__group--comment {
     border: none;
-    height: 120px;
+    min-height: 140px;
+    height: auto;
+    align-items: center;
 }
 
 .form__group-title {
@@ -61,7 +70,7 @@
     width: 150px;
 }
 
-.form__label-name, .form__label-date, .form__label-time, .form__label-break1, .form__label-break2, .form__label-comment {
+.form__label-name, .form__label-date, .form__label-time, .form__label-break, .form__label-comment {
     color: #737373;
 }
 
@@ -70,11 +79,16 @@
     margin-right: 250px;
 }
 
+.form__group-content-name {
+    margin-left: 25px;
+}
+
 .year {
+    margin-left: 25px;
     margin-right: 150px;
 }
 
-.form__input-time, .form__input-break1, .form__input-break2 {
+.form__input-time, .form__input-break {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -86,6 +100,8 @@
     text-align: center;
     border: 1px solid #D9D9D9;
     border-radius: 4px;
+    font-size: 16px;
+    padding: 0;
 }
 
 input[type="time"]::-webkit-calendar-picker-indicator {
@@ -107,12 +123,22 @@ input[type="time"]::-webkit-inner-spin-button {
     border: 1px solid #D9D9D9;
     border-radius: 4px;
     resize: none;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 input:disabled,
 textarea:disabled {
     border: none;
+    background-color: #fff;
     cursor: not-allowed;
+}
+
+.form__error {
+    font-size: 15px;
+    margin-top: 5px;
+    padding: 0;
 }
 
 .form-btn {
@@ -138,4 +164,5 @@ textarea:disabled {
     border-radius: 5px;
     background-color: #000;
     color: #fff;
+    cursor: pointer;
 }
