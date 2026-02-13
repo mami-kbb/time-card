@@ -42,4 +42,9 @@ class Application extends Model
     {
         return $this->belongsTo(Attendance::class);
     }
+
+    public function getStatusLabelAttribute()
+    {
+        return $this->approval_status === self::STATUS_PENDING ? '承認待ち' : '承認済み';
+    }
 }

@@ -86,3 +86,5 @@ DB_PASSWORD=root
 ## 追記事項
 
 -勤怠一覧画面の表示月に月ピッカーを設定して表示したい月を選択できる仕様になっています。
+- 要件シートの基本設計書内にあるRegisterRequest.phpの内容につきましては、Fortifyの仕様に従い`App\Actions\Fortify\CreateNewUser` クラス内に実装しています。
+- メール認証機能を導入しました。

@@ -10,7 +10,9 @@
 
 @section('content')
 <div class="list-content">
-    <h2 class="list-header"><span></span>勤怠一覧</h2>
+    <div class="content-header">
+        <h2 class="content-title"><span></span>勤怠一覧</h2>
+    </div>
     <div class="month-list">
         <div class="month-header">
             <a href="/attendance/list?month={{ $currentMonth->copy()->subMonth()->format('Y-m') }}" class="previous-month"><img class="left-arrow__img" src="{{ asset('/images/arrow.png') }}" alt="←">前月</a>

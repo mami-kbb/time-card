@@ -49,9 +49,11 @@ class ApplicationRequest extends FormRequest
     public function withValidator($validator)
 {
     $validator->after(function ($validator) {
-
-        // ① 出勤・退勤
-        if ($this->new_start_time >= $this->new_end_time) {
+        if (
+            $this->new_start_time &&
+            $this->new_end_time &&
+            $this->new_start_time >= $this->new_end_time
+        ) {
             $validator->errors()->add(
                 'new_start_time',
                 '出勤時間もしくは退勤時間が不適切な値です'
@@ -59,11 +61,9 @@ class ApplicationRequest extends FormRequest
         }
 
         foreach ($this->breaks ?? [] as $index => $break) {
-
             $breakStart = $break['new_break_start_time'] ?? null;
             $breakEnd   = $break['new_break_end_time'] ?? null;
 
-            // ② 休憩開始が勤務時間外
             if (
                 $breakStart &&
                 (
@@ -77,18 +77,16 @@ class ApplicationRequest extends FormRequest
                 );
             }
 
-            // ③ 休憩終了が退勤より後
             if (
                 $breakEnd &&
                 $breakEnd > $this->new_end_time
             ) {
                 $validator->errors()->add(
-                    "breaks.$index.new_break_end_time",
+                    "breaks.$index.new_break_start_time",
                     '休憩時間もしくは退勤時間が不適切な値です'
                 );
             }
 
-            // ⑤ 休憩開始 >= 休憩終了（★追加）
             if (
                 $breakStart &&
                 $breakEnd &&

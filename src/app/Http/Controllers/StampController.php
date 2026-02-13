@@ -9,6 +9,7 @@ use App\Models\AttendanceBreak;
 use App\Models\Application;
 use App\Models\ApplicationBreak;
 use App\Http\Requests\ApplicationRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StampController extends Controller
 {
@@ -53,6 +54,22 @@ class StampController extends Controller
             }
         });
 
-        return redirect('/attendance/list');
+        return redirect("/attendance/detail/" . $date);
+    }
+
+    public function index(Request $request)
+    {
+        $tab = $request->query('tab', 'pending');
+        $query = Application::with(['user', 'attendance'])->where('user_id', auth()->id());
+
+        if ($tab === 'approved') {
+            $query->where('approval_status', Application::STATUS_APPROVED);
+        } else {
+            $query->where('approval_status', Application::STATUS_PENDING);
+        }
+
+        $applications = $query->get();
+
+        return view('requests.index', compact('applications', 'tab'));
     }
 }

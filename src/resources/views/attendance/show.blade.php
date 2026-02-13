@@ -10,7 +10,9 @@
 
 @section('content')
 <div class="show-content">
-    <h2 class="content-header"><span></span>勤怠詳細</h2>
+    <div class="content-header">
+        <h2 class="content-title"><span></span>勤怠詳細</h2>
+    </div>
     <div class="detail">
         <form action="/attendance/detail/{{ $day['date']->format('Y-m-d') }}" class="application-form" method="post" onsubmit="{{ $isPending ? 'return false;' : '' }}">
             @csrf
@@ -45,7 +47,7 @@
                             <input type="text" class="end-time"
                                 name="new_end_time" value="{{ old('new_end_time') ?? optional($displayEndTime)->format('H:i') }}">
                         </div>
-                        @error('new_end_time')
+                        @error('new_start_time')
                         <div class="form__error">
                             {{ $message }}
                         </div>
