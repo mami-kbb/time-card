@@ -9,7 +9,7 @@
     <div class="login-form__heading">
         <h2>管理者ログイン</h2>
     </div>
-    <form action="admin/login" class="login-form" method="post" novalidate>
+    <form action="/admin/login" class="login-form" method="post" novalidate>
         @csrf
         <div class="form__group">
             <div class="form__group-item">

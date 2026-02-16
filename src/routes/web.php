@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StampController;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +30,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'clock']);
     Route::post('/attendance',[AttendanceController::class, 'stamp']);
     Route::get('/attendance/list', [AttendanceController::class, 'index']);
-    Route::get('/attendance/detail/{date}', [AttendanceController::class, 'show']);
-    Route::post('/attendance/detail/{date}', [StampController::class, 'store']);
+    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'show']);
+    Route::post('/attendance/detail/{id}', [StampController::class, 'store']);
     Route::get('/stamp_correction_request/list', [StampController::class, 'index']);
-    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'detail']);
+});
+
+Route::prefix('admin')->group(function () {
+
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+        ->name('admin.login');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 });

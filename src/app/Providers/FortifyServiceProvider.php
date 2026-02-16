@@ -16,6 +16,9 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\LoginResponse;
 use App\Http\Responses\LoginResponse as CustomLoginResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -38,6 +41,9 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::loginView(function () {
+            if(request()->is('admin/*')) {
+                return view('admin.auth.login');
+            }
             return view('auth.login');
         });
 
@@ -50,6 +56,30 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::verifyEmailView(function () {
             return view('auth.verify-email');
+        });
+
+        Fortify::authenticateUsing(function (Request $request) {
+
+            $user = User::where('email', $request->email)->first();
+
+            if (!$user || !Hash::check($request->password, $user->password)) {
+                return null;
+            }
+
+            if ($request->is('admin/*')) {
+
+                if ($user->role !== 1) {
+                    return null;
+                }
+
+                return $user;
+            }
+
+            if ($user->role !== 0) {
+                return null;
+            }
+
+            return $user;
         });
     }
 }

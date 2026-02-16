@@ -41,20 +41,36 @@
             <tbody>
                 @foreach ($dates as $day)
                 <tr class="attendance-logs__table--row">
-                    <td class="attendance-logs__table--content-day">{{ $day['date']->translatedFormat('m/d(D)') }}</td>
-                    <td class="attendance-logs__table--content-start">{{ optional($day['attendance'])->start_time ? \Carbon\Carbon::parse($day['attendance']->start_time)->format('H:i') : '' }}</td>
-                    <td class="attendance-logs__table--content-end">{{ optional($day['attendance'])->end_time ? \Carbon\Carbon::parse($day['attendance']->end_time)->format('H:i') : '' }}</td>
-                    <td class="attendance-logs__table--content-break">{{ $day['attendance'] ? gmdate('H:i', $day['attendance']->calculateTotalBreakTime() * 60) : '' }}</td>
+                    <td class="attendance-logs__table--content-day">{{ $day->date->translatedFormat('m/d(D)') }}</td>
+                    <td class="attendance-logs__table--content-start">{{ $day->attendance->start_time ? \Carbon\Carbon::parse($day->attendance->start_time)->format('H:i') : '' }}</td>
+                    <td class="attendance-logs__table--content-end">{{ $day->attendance->end_time ? \Carbon\Carbon::parse($day->attendance->end_time)->format('H:i') : '' }}</td>
+                    <td class="attendance-logs__table--content-break">
+                        @php
+                        $breakMinutes = $day->attendance->calculateTotalBreakTime();
+                        $hours = floor($breakMinutes / 60);
+                        $minutes = $breakMinutes % 60;
+                        @endphp
+
+                        @if ($breakMinutes > 0)
+                        {{ $hours . ':' . str_pad($minutes, 2, '0', STR_PAD_LEFT) }}
+                        @endif
+                    </td>
                     <td class="attendance-logs__table--content-total">
-                        @if (!$day['attendance'])
-                        @elseif (!$day['attendance']->end_time)
+                        @if(!$day->attendance->start_time)
+                        @elseif($day->attendance->start_time && !$day->attendance->end_time)
                         ー
                         @else
-                        {{ gmdate('H:i', $day['attendance']->calculateTotalWorkTime() * 60) }}
+                        @php
+                        $workMinutes = $day->attendance->calculateTotalWorkTime();
+                        $hours = floor($workMinutes / 60);
+                        $minutes = $workMinutes % 60;
+                        @endphp
+
+                        {{ $hours . ':' . str_pad($minutes, 2, '0', STR_PAD_LEFT) }}
                         @endif
                     </td>
                     <td class="attendance-logs__table--content">
-                        <a href="/attendance/detail/{{ $day['date']->format('Y-m-d') }}" class="attendance-logs__table-detail">詳細</a>
+                        <a href="/attendance/detail/{{ $day->attendance->id }}" class="attendance-logs__table-detail">詳細</a>
                     </td>
                 </tr>
                 @endforeach

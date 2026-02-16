@@ -14,7 +14,7 @@
         <h2 class="content-title"><span></span>勤怠詳細</h2>
     </div>
     <div class="detail">
-        <form action="/attendance/detail/{{ $day['date']->format('Y-m-d') }}" class="application-form" method="post" onsubmit="{{ $isPending ? 'return false;' : '' }}">
+        <form action="/attendance/detail/{{ $attendance->id }}" class="application-form" method="post" onsubmit="{{ $isPending ? 'return false;' : '' }}">
             @csrf
             <div class="form-area">
                 <div class="form__group">
@@ -22,7 +22,7 @@
                         <span class="form__label-name">名前</span>
                     </div>
                     <div class="form__group-content">
-                        <span class="form__group-content-name">{{ $user['name'] }}</span>
+                        <span class="form__group-content-name">{{ auth()->user()->name }}</span>
                     </div>
                 </div>
                 <div class="form__group">
@@ -30,8 +30,8 @@
                         <span class="form__label-date">日付</span>
                     </div>
                     <div class="form__group-content">
-                        <span class="year">{{ $day['date']->translatedFormat('Y年') }}</span>
-                        <span class="date">{{ $day['date']->translatedFormat('n月j日') }}</span>
+                        <span class="year">{{ $workDate->translatedFormat('Y年') }}</span>
+                        <span class="date">{{ $workDate->translatedFormat('n月j日') }}</span>
                     </div>
                 </div>
                 <div class="form__group form__group--time">

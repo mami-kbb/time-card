@@ -13,26 +13,17 @@ use Illuminate\Support\Facades\Auth;
 
 class StampController extends Controller
 {
-    public function store(ApplicationRequest $request, $date)
+    public function store(ApplicationRequest $request, $id)
     {
-        DB::transaction(function () use ($request, $date) {
+        DB::transaction(function () use ($request, $id) {
             $attendance = Attendance::with(['attendanceBreaks', 'applications'])
             ->where('user_id', auth()->id())
-            ->whereDate('work_date', $date)
-            ->first();
-
-            if (!$attendance) {
-                $attendance = Attendance::create([
-                    'user_id' => auth()->id(),
-                    'work_date' => $date,
-                ]);
-            }
+            ->findOrFail($id);
 
             $application = Application::create([
                 'attendance_id'   => $attendance->id,
                 'user_id'         => auth()->id(),
                 'approval_status' => Application::STATUS_PENDING,
-                'application_date' => $date,
                 'new_start_time'  => $request->new_start_time,
                 'new_end_time'    => $request->new_end_time,
                 'comment'         => $request->comment,
@@ -54,7 +45,7 @@ class StampController extends Controller
             }
         });
 
-        return redirect("/attendance/detail/" . $date);
+        return redirect("/attendance/detail/" . $id);
     }
 
     public function index(Request $request)
