@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StampController;
+use App\Http\Controllers\AdminAttendanceController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
@@ -36,8 +37,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::prefix('admin')->group(function () {
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('admin.login');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])->defaults('guard', 'admin');
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
+});
 
-    Route::get('/login', [AuthenticatedSessionController::class, 'create'])
-        ->name('admin.login');
-    Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/admin/attendance/list', [AdminAttendanceController::class, 'index']);
 });

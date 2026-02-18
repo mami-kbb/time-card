@@ -19,6 +19,8 @@ use App\Http\Responses\LoginResponse as CustomLoginResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Laravel\Fortify\Contracts\LogoutResponse;
+use App\Http\Responses\LogoutResponse as CustomLogoutResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -54,11 +56,20 @@ class FortifyServiceProvider extends ServiceProvider
 
         $this->app->bind(FortifyLoginRequest::class, LoginRequest::class);
 
+        $this->app->singleton(LoginResponse::class, CustomLoginResponse::class);
+
+        $this->app->singleton(LogoutResponse::class, CustomLogoutResponse::class);
+
         Fortify::verifyEmailView(function () {
             return view('auth.verify-email');
         });
 
         Fortify::authenticateUsing(function (Request $request) {
+            if ($request->is('admin/*')) {
+                config(['fortify.guard' => 'admin']);
+            } else {
+                config(['fortify.guard' => 'web']);
+            }
 
             $user = User::where('email', $request->email)->first();
 
@@ -66,16 +77,11 @@ class FortifyServiceProvider extends ServiceProvider
                 return null;
             }
 
-            if ($request->is('admin/*')) {
-
-                if ($user->role !== 1) {
+            if ($request->is('admin/*') && $user->role !==1) {
                     return null;
                 }
 
-                return $user;
-            }
-
-            if ($user->role !== 0) {
+            if (!$request->is('admin/*') && $user->role !== 0) {
                 return null;
             }
 
