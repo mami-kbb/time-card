@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UsersTableSeeder::class,
             AttendancesTableSeeder::class,
-            AttendanceBreaksTableSeeder::class,
+            ApplicationsTableSeeder::class,
         ]);
     }
 }

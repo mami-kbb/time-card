@@ -49,15 +49,15 @@
                     <td class="attendance-logs__table--content-end">{{ $attendance?->end_time ? \Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '' }}</td>
                     <td class="attendance-logs__table--content-break">
                         @if($attendance)
-                            @php
-                            $breakMinutes = $attendance->calculateTotalBreakTime();
-                            $hours = floor($breakMinutes / 60);
-                            $minutes = $breakMinutes % 60;
-                            @endphp
+                        @php
+                        $breakMinutes = $attendance->calculateTotalBreakTime();
+                        $hours = floor($breakMinutes / 60);
+                        $minutes = $breakMinutes % 60;
+                        @endphp
 
-                            @if ($breakMinutes > 0)
-                            {{ $hours . ':' . str_pad($minutes, 2, '0', STR_PAD_LEFT) }}
-                            @endif
+                        @if ($breakMinutes > 0)
+                        {{ $hours . ':' . str_pad($minutes, 2, '0', STR_PAD_LEFT) }}
+                        @endif
                         @endif
                     </td>
                     <td class="attendance-logs__table--content-total">
@@ -76,7 +76,7 @@
                     </td>
                     <td class="attendance-logs__table--content">
                         @if($attendance)
-                        <a href="/attendance/detail/{{ $attendance->id }}" class="attendance-logs__table-detail">詳細</a>
+                        <a href="/admin/attendance/{{ $attendance->id }}" class="attendance-logs__table-detail">詳細</a>
                         @endif
                     </td>
                 </tr>

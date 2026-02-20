@@ -37,7 +37,7 @@
                 <td class="application-list__table--content-reason">{{ $application->comment }}</td>
                 <td class="application-list__table--content-application-date">{{ $application->created_at->format('Y/m/d') }}</td>
                 <td class="application-list__table--content-detail">
-                    <a href="/attendance/detail/{{ $application->attendance->id }}" class="detail-link">詳細</a>
+                    <a href="/attendance/detail/{{ $application->id }}" class="detail-link">詳細</a>
                 </td>
             </tr>
             @endforeach

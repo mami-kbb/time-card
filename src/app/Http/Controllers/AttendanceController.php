@@ -109,12 +109,7 @@ class AttendanceController extends Controller
 
         for ($date = $startOfMonth->copy(); $date <= $endOfMonth; $date->addDay()) {
 
-            $attendance = Attendance::firstOrCreate(
-                [
-                    'user_id'   => $userId,
-                    'work_date' => $date->format('Y-m-d'),
-                ]
-            );
+            $attendance = $attendances[$date->format('Y-m-d')] ?? null;
 
             $dates[] = (object) [
                 'date' => $date->copy(),
@@ -126,15 +121,16 @@ class AttendanceController extends Controller
         return view('attendance.index', compact('dates', 'currentMonth'));
     }
 
-    public function show($id)
+    public function show($date)
     {
         $attendance = Attendance::with(['attendanceBreaks', 'applications'])
             ->where('user_id', auth()->id())
-            ->findOrFail($id);
+            ->whereDate('work_date', $date)
+            ->first();
 
-        $workDate = Carbon::parse($attendance->work_date);
+        $workDate = Carbon::parse($date);
 
-        $application = $attendance->applications()->latest()->first();
+        $application = $attendance?->applications()?->latest()->first();
         $isPending = $application?->approval_status === 0;
 
         $displayStartTime = null;
@@ -142,16 +138,17 @@ class AttendanceController extends Controller
         $displayBreaks    = collect();
         $isEditable       = true;
 
-        if ($isPending) {
-            $displayStartTime = $application->new_start_time;
-            $displayEndTime   = $application->new_end_time;
-            $displayBreaks    = $application->applicationBreaks ?? collect();
-            $isEditable       = false;
-        } else {
-            $displayStartTime = $attendance->start_time;
-            $displayEndTime   = $attendance->end_time;
-            $displayBreaks    = $attendance->attendanceBreaks ?? collect();
-            $isEditable       = true;
+        if ($attendance) {
+            if ($isPending) {
+                $displayStartTime = $application->new_start_time;
+                $displayEndTime   = $application->new_end_time;
+                $displayBreaks    = $application->applicationBreaks ?? collect();
+                $isEditable       = false;
+            } else {
+                $displayStartTime = $attendance->start_time;
+                $displayEndTime   = $attendance->end_time;
+                $displayBreaks    = $attendance->attendanceBreaks ?? collect();
+            }
         }
 
         return view('attendance.show', compact(

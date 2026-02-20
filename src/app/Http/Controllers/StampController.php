@@ -13,20 +13,27 @@ use Illuminate\Support\Facades\Auth;
 
 class StampController extends Controller
 {
-    public function store(ApplicationRequest $request, $id)
+    public function store(ApplicationRequest $request, $date)
     {
-        DB::transaction(function () use ($request, $id) {
-            $attendance = Attendance::with(['attendanceBreaks', 'applications'])
-            ->where('user_id', auth()->id())
-            ->findOrFail($id);
+        DB::transaction(function () use ($request, $date) {
+            $attendance = Attendance::where('user_id', auth()->id())
+            ->whereDate('work_date', $date)
+            ->first();
+
+            if (!$attendance) {
+                $attendance = Attendance::create([
+                    'user_id' => auth()->id(),
+                    'work_date' => $date,
+                ]);
+            }
 
             $application = Application::create([
-                'attendance_id'   => $attendance->id,
-                'user_id'         => auth()->id(),
+                'attendance_id' => $attendance->id,
+                'user_id' => auth()->id(),
                 'approval_status' => Application::STATUS_PENDING,
-                'new_start_time'  => $request->new_start_time,
-                'new_end_time'    => $request->new_end_time,
-                'comment'         => $request->comment,
+                'new_start_time' => $request->new_start_time,
+                'new_end_time' => $request->new_end_time,
+                'comment' => $request->comment,
             ]);
 
             foreach ($request->breaks ?? [] as $break) {
@@ -38,14 +45,14 @@ class StampController extends Controller
                 }
 
                 ApplicationBreak::create([
-                    'application_id'       => $application->id,
+                    'application_id' => $application->id,
                     'new_break_start_time' => $break['new_break_start_time'],
-                    'new_break_end_time'   => $break['new_break_end_time'],
+                    'new_break_end_time' => $break['new_break_end_time'],
                 ]);
             }
         });
 
-        return redirect("/attendance/detail/" . $id);
+        return redirect("/attendance/detail/" . $date);
     }
 
     public function index(Request $request)

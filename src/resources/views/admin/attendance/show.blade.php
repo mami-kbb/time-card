@@ -22,7 +22,7 @@
                         <span class="form__label-name">名前</span>
                     </div>
                     <div class="form__group-content">
-                        <span class="form__group-content-name">{{ auth()->user()->name }}</span>
+                        <span class="form__group-content-name">{{ $attendance->user->name }}</span>
                     </div>
                 </div>
                 <div class="form__group">
