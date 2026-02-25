@@ -42,9 +42,16 @@
                 @foreach ($dates as $day)
                 <tr class="attendance-logs__table--row">
                     <td class="attendance-logs__table--content-day">{{ $day->date->translatedFormat('m/d(D)') }}</td>
-                    <td class="attendance-logs__table--content-start">{{ $day->attendance->start_time ? \Carbon\Carbon::parse($day->attendance->start_time)->format('H:i') : '' }}</td>
-                    <td class="attendance-logs__table--content-end">{{ $day->attendance->end_time ? \Carbon\Carbon::parse($day->attendance->end_time)->format('H:i') : '' }}</td>
+                    <td class="attendance-logs__table--content-start">@if($day->attendance && $day->attendance->start_time)
+                        {{ \Carbon\Carbon::parse($day->attendance->start_time)->format('H:i') }}
+                        @endif
+                    </td>
+                    <td class="attendance-logs__table--content-end">@if($day->attendance && $day->attendance->end_time)
+                        {{ \Carbon\Carbon::parse($day->attendance->end_time)->format('H:i') }}
+                        @endif
+                    </td>
                     <td class="attendance-logs__table--content-break">
+                        @if($day->attendance)
                         @php
                         $breakMinutes = $day->attendance->calculateTotalBreakTime();
                         $hours = floor($breakMinutes / 60);
@@ -54,9 +61,11 @@
                         @if ($breakMinutes > 0)
                         {{ $hours . ':' . str_pad($minutes, 2, '0', STR_PAD_LEFT) }}
                         @endif
+                        @endif
                     </td>
                     <td class="attendance-logs__table--content-total">
-                        @if(!$day->attendance->start_time)
+                        @if(!$day->attendance)
+                        @elseif(!$day->attendance->start_time)
                         @elseif($day->attendance->start_time && !$day->attendance->end_time)
                         ー
                         @else
@@ -70,7 +79,7 @@
                         @endif
                     </td>
                     <td class="attendance-logs__table--content">
-                        <a href="/admin/attendance/{{ $day->attendance->id }}" class="attendance-logs__table-detail">詳細</a>
+                        <a href="/admin/attendance/{{ $user->id }}/{{ $day->date->format('Y-m-d') }}" class="attendance-logs__table-detail">詳細</a>
                     </td>
                 </tr>
                 @endforeach

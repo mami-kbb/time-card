@@ -19,15 +19,15 @@
             <div class="form-area">
                 <div class="form__group">
                     <div class="form__group-title">
-                        <span class="form__label-name">名前</span>
+                        <p class="form__label-name">名前</p>
                     </div>
                     <div class="form__group-content">
-                        <span class="form__group-content-name">{{ auth()->user()->name }}</span>
+                        <p class="form__group-content-name">{{ auth()->user()->name }}</p>
                     </div>
                 </div>
                 <div class="form__group">
                     <div class="form__group-title">
-                        <span class="form__label-date">日付</span>
+                        <p class="form__label-date">日付</p>
                     </div>
                     <div class="form__group-content">
                         <span class="year">{{ $workDate->translatedFormat('Y年') }}</span>
@@ -47,11 +47,11 @@
                             <input type="text" class="end-time"
                                 name="new_end_time" value="{{ old('new_end_time') ?? optional($displayEndTime)->format('H:i') }}">
                         </div>
-                        @error('new_start_time')
+                        @if ($errors->has('new_start_time') || $errors->has('new_end_time'))
                         <div class="form__error">
-                            {{ $message }}
+                            {{ $errors->first('new_start_time') ?: $errors->first('new_end_time') }}
                         </div>
-                        @enderror
+                        @endif
                         @else
                         <div class="time-content">
                             <p class="time-content-display">{{ optional($displayStartTime)->format('H:i') }}
@@ -75,11 +75,11 @@
                             <input type="text" class="break-end" name="breaks[{{ $index }}][new_break_end_time]" value="{{ old("breaks.$index.new_break_end_time") ?? optional($break->break_end_time ?? $break->new_break_end_time)->format('H:i') }}">
                         </div>
 
-                        @error("breaks.$index.new_break_start_time")
+                        @if ($errors->has("breaks.$index.new_break_start_time") || $errors->has("breaks.$index.new_break_end_time"))
                         <div class="form__error">
-                            {{ $message }}
+                            {{ $errors->first("breaks.$index.new_break_start_time") ?: $errors->first("breaks.$index.new_break_end_time") }}
                         </div>
-                        @enderror
+                        @endif
                         @else
                         <div class="time-content">
                             <p class="time-content-display">
@@ -105,11 +105,11 @@
                             <input type="text" inputmode="numeric"
                                 pattern="[0-9:]*" class="break-end" name="breaks[{{ $displayBreaks->count() }}][new_break_end_time]" value="{{ old("breaks.{$displayBreaks->count()}.new_break_end_time") }}">
                         </div>
-                        @error("breaks." . $displayBreaks->count() . ".new_break_start_time")
+                        @if ($errors->has("breaks." . $displayBreaks->count() . ".new_break_start_time") || $errors->has("breaks." . $displayBreaks->count() . ".new_break_end_time"))
                         <div class="form__error">
-                            {{ $message }}
+                            {{ $errors->first("breaks." . $displayBreaks->count() . ".new_break_start_time") ?: $errors->first("breaks." . $displayBreaks->count() . ".new_break_end_time") }}
                         </div>
-                        @enderror
+                        @endif
                     </div>
                 </div>
                 @endif

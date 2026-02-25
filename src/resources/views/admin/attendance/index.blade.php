@@ -76,7 +76,7 @@
                     </td>
                     <td class="attendance-logs__table--content">
                         @if($attendance)
-                        <a href="/admin/attendance/{{ $attendance->id }}" class="attendance-logs__table-detail">詳細</a>
+                        <a href="/admin/attendance/{{ $attendance->user->id }}/{{ $currentDate->format('Y-m-d') }}" class="attendance-logs__table-detail">詳細</a>
                         @endif
                     </td>
                 </tr>

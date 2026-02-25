@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Attendance;
 use App\Models\AttendanceBreak;
 use App\Models\Application;
+use App\Models\User;
 use App\Models\ApplicationBreak;
 use App\Http\Requests\ApplicationRequest;
 use Illuminate\Support\Facades\Auth;
@@ -44,8 +45,7 @@ class StampController extends Controller
                     continue;
                 }
 
-                ApplicationBreak::create([
-                    'application_id' => $application->id,
+                $application->applicationBreaks()->create([
                     'new_break_start_time' => $break['new_break_start_time'],
                     'new_break_end_time' => $break['new_break_end_time'],
                 ]);
@@ -55,19 +55,58 @@ class StampController extends Controller
         return redirect("/attendance/detail/" . $date);
     }
 
-    public function index(Request $request)
+    public function correct(ApplicationRequest $request, User $user, $date)
     {
-        $tab = $request->query('tab', 'pending');
-        $query = Application::with(['user', 'attendance'])->where('user_id', auth()->id());
+        $attendance = Attendance::where('user_id', $user->id)
+        ->whereDate('work_date', $date)
+        ->firstOrFail();
 
-        if ($tab === 'approved') {
-            $query->where('approval_status', Application::STATUS_APPROVED);
-        } else {
-            $query->where('approval_status', Application::STATUS_PENDING);
-        }
+        DB::transaction(function () use ($request, $attendance, $user) {
+            $application = Application::create([
+                'user_id' => $user->id,
+                'attendance_id' => $attendance->id,
+                'new_start_time' => $request->new_start_time,
+                'new_end_time' => $request->new_end_time,
+                'comment' => $request->comment,
+                'approval_status' => Application::STATUS_APPROVED,
+            ]);
 
-        $applications = $query->get();
+            foreach ($request->breaks ?? [] as $break) {
+                if (
+                    empty($break['new_break_start_time']) &&
+                    empty($break['new_break_end_time'])
+                ) {
+                    continue;
+                }
 
-        return view('requests.index', compact('applications', 'tab'));
+                $application->applicationBreaks()->create([
+                    'new_break_start_time' => $break['new_break_start_time'],
+                    'new_break_end_time'   => $break['new_break_end_time'],
+                ]);
+            }
+
+            $attendance->update([
+                'start_time' => $request->new_start_time,
+                'end_time'   => $request->new_end_time,
+            ]);
+
+            $attendance->attendanceBreaks()->delete();
+
+            foreach ($request->breaks ?? [] as $break) {
+
+                if (
+                    empty($break['new_break_start_time']) &&
+                    empty($break['new_break_end_time'])
+                ) {
+                    continue;
+                }
+                $attendance->attendanceBreaks()->create([
+                    'break_start_time' => $break['new_break_start_time'],
+                    'break_end_time'   => $break['new_break_end_time'],
+                ]);
+            }
+        });
+
+        return redirect("/admin/attendance/" . $user->id . "/" . $date);
     }
 }

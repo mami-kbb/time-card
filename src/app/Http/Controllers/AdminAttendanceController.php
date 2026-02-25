@@ -27,14 +27,15 @@ class AdminAttendanceController extends Controller
         return view('admin.attendance.index', compact('users', 'currentDate'));
     }
 
-    public function show($id)
+    public function show(User $user, $date)
     {
-        $attendance = Attendance::with(['attendanceBreaks', 'applications'])
-            ->findOrFail($id);
+        $attendance = Attendance::where('user_id', $user->id)
+        ->whereDate('work_date', $date)
+        ->first();
 
         $workDate = Carbon::parse($attendance->work_date);
 
-        $application = $attendance->applications()->latest()->first();
+        $application = $attendance?->applications()?->latest()->first();
         $isPending = $application?->approval_status === 0;
 
         $displayStartTime = null;
