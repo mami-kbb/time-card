@@ -37,6 +37,7 @@ class Attendance extends Model
         ->latest();
     }
 
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -68,8 +68,14 @@
     margin-left: 25px;
 }
 
+.form__group-content-date {
+    width: 320px;
+    margin-right: 250px;
+    display: flex;
+}
+
 .year {
-    margin-left: 25px;
+    margin-left: 20px;
     margin-right: 100px;
 }
 

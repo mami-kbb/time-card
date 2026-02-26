@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\Application;
 
@@ -61,5 +62,36 @@ class ApplicationController extends Controller
             'isPending',
             'displayBreaks'
         ));
+    }
+
+    public function approve($id)
+    {
+        DB::transaction(
+            function () use ($id) {
+            $application = Application::with('applicationBreaks')->findOrFail($id);
+
+            $attendance = $application->attendance;
+
+            $attendance->update([
+                'start_time' => $application->new_start_time,
+                'end_time' => $application->new_end_time,
+            ]);
+
+            $attendance->attendanceBreaks()->delete();
+
+            foreach ($application->applicationBreaks as $break) {
+                $attendance->attendanceBreaks()->create([
+                    'break_start_time' => $break->new_break_start_time,
+                    'break_end_time' => $break->new_break_end_time,
+                ]);
+            }
+
+            $application->update([
+                'approval_status' => 1
+            ]);
+            }
+        );
+
+        return redirect()->back();
     }
 }

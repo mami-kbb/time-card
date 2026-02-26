@@ -49,6 +49,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('admin/attendance/{user}/{date}', [AdminAttendanceController::class, 'show']);
     Route::post('admin/attendance/{user}/{date}/', [StampController::class, 'correct']);
     Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [ApplicationController::class, 'show']);
+    Route::post('/stamp_correction_request/approve/{attendance_correct_request_id}', [ApplicationController::class, 'approve']);
 });
 
 Route::middleware(['auth:web,admin'])->group(function () {

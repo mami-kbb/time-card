@@ -29,9 +29,9 @@
                     <div class="form__group-title">
                         <p class="form__label-date">日付</p>
                     </div>
-                    <div class="form__group-content">
-                        <span class="year">{{ $workDate->translatedFormat('Y年') }}</span>
-                        <span class="date">{{ $workDate->translatedFormat('n月j日') }}</span>
+                    <div class="form__group-content-date">
+                        <p class="year">{{ $workDate->translatedFormat('Y年') }}</p>
+                        <p class="date">{{ $workDate->translatedFormat('n月j日') }}</p>
                     </div>
                 </div>
                 <div class="form__group form__group--time">

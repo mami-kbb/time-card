@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Attendance;
 use App\Models\AttendanceBreak;
-use App\Models\Application;
 use Illuminate\Bus\PendingBatch;
 use Illuminate\Support\Facades\Auth;
 
