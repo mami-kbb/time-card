@@ -86,6 +86,12 @@
             </tbody>
         </table>
     </div>
+    <div class="csv-content">
+        <a href="/admin/attendance/staff/{{ $user->id }}/csv"
+            class="csv-button">
+            CSV出力
+        </a>
+    </div>
 </div>
 
 <script>

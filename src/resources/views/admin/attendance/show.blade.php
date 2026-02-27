@@ -130,6 +130,9 @@
                 </div>
             </div>
             <div class="form-btn">
+                <p class="session">
+                    {{ session('message') }}
+                </p>
                 @if ($isPending)
                 <p class="pending-message">*承認待ちのため修正はできません。</p>
                 @else

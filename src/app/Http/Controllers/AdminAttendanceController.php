@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Attendance;
+use Carbon\CarbonPeriod;
 
 class AdminAttendanceController extends Controller
 {
@@ -104,5 +105,78 @@ class AdminAttendanceController extends Controller
         }
 
         return view('admin.staff.index', compact('dates', 'currentMonth', 'user'));
+    }
+
+    public function exportCsv(Request $request, $id)
+    {
+        $currentMonth = $request->input('month')
+        ? Carbon::createFromFormat('Y-m', $request->month) : Carbon::now();
+
+        $startOfMonth = $currentMonth->copy()->startOfMonth();
+        $endOfMonth = $currentMonth->copy()->endOfMonth();
+
+        $period = CarbonPeriod::create(
+            $startOfMonth,
+            $endOfMonth
+        );
+
+        $attendances = Attendance::where('user_id', $id)
+        ->whereBetween('work_date', [$startOfMonth, $endOfMonth])
+        ->with('attendanceBreaks')
+        ->get()
+        ->keyBy(function ($item) {
+            return $item->work_date->format('Y-m-d');
+        });
+
+        $filename = "attendance_{$id}_{$currentMonth->format('Y-m')}.csv";
+
+        return response()->streamDownload(function () use ($attendances, $period) {
+
+            $file = fopen('php://output', 'w');
+
+            $csvHeader = ['日付', '出勤', '退勤', '休憩', '合計'];
+            mb_convert_variables('SJIS-win', 'UTF-8', $csvHeader);
+            fputcsv($file, $csvHeader);
+
+            foreach ($period as $date) {
+
+                $formattedDate = $date->format('Y-m-d');
+
+                $attendance = $attendances->get($formattedDate);
+
+                if ($attendance) {
+                    $breakMinutes = $attendance->calculateTotalBreakTime();
+                    $workMinutes  = $attendance->calculateTotalWorkTime();
+
+                    $breakHours = floor($breakMinutes / 60);
+                    $breakRemain = $breakMinutes % 60;
+
+                    $workHours = floor($workMinutes / 60);
+                    $workRemain = $workMinutes % 60;
+
+                    $row = [
+                        $formattedDate,
+                        $attendance->start_time?->format('H:i'),
+                        $attendance->end_time?->format('H:i'),
+                        sprintf('%02d：%02d', $breakHours, $breakRemain),
+                        sprintf('%02d：%02d', $workHours, $workRemain),
+                    ];
+                } else {
+                    $row = [
+                        $formattedDate,
+                        '',
+                        '',
+                        '',
+                        '',
+                    ];
+                }
+
+                mb_convert_variables('SJIS-win', 'UTF-8', $row);
+                fputcsv($file, $row);
+            }
+
+            fclose($file);
+        }, $filename);
+
     }
 }

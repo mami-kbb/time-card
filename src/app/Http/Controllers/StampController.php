@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Attendance;
-use App\Models\AttendanceBreak;
 use App\Models\Application;
 use App\Models\User;
-use App\Models\ApplicationBreak;
 use App\Http\Requests\ApplicationRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -107,6 +105,6 @@ class StampController extends Controller
             }
         });
 
-        return redirect("/admin/attendance/" . $user->id . "/" . $date);
+        return redirect("/admin/attendance/" . $user->id . "/" . $date)->with('message', '※修正しました');
     }
 }
