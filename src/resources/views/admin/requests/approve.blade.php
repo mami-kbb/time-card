@@ -14,29 +14,29 @@
         <h2 class="content-title"><span></span>勤怠詳細</h2>
     </div>
     <div class="detail">
-        <div class="form-area">
-            <div class="form__group">
-                <div class="form__group-title">
-                    <p class="form__label-name">名前</p>
+        <div class="detail-area">
+            <div class="detail__group">
+                <div class="detail__group-title">
+                    <p class="detail__label-name">名前</p>
                 </div>
-                <div class="form__group-content">
-                    <p class="form__group-content-name">{{ $attendance->user->name }}</p>
+                <div class="detail__group-content">
+                    <p class="detail__group-content-name">{{ $attendance->user->name }}</p>
                 </div>
             </div>
-            <div class="form__group">
-                <div class="form__group-title">
-                    <p class="form__label-date">日付</p>
+            <div class="detail__group">
+                <div class="detail__group-title">
+                    <p class="detail__label-date">日付</p>
                 </div>
-                <div class="form__group-content-date">
+                <div class="detail__group-content-date">
                     <p class="year">{{ $workDate->translatedFormat('Y年') }}</p>
                     <p class="date">{{ $workDate->translatedFormat('n月j日') }}</p>
                 </div>
             </div>
-            <div class="form__group form__group--time">
-                <div class="form__group-title">
-                    <p class="form__label-time">出勤・退勤</p>
+            <div class="detail__group detail__group--time">
+                <div class="detail__group-title">
+                    <p class="detail__label-time">出勤・退勤</p>
                 </div>
-                <div class="form__group-content">
+                <div class="detail__group-content">
                     <div class="time-content">
                         <p class="time-content-display">{{ $application->new_start_time?->format('H:i') }}
                             <span>～</span>
@@ -46,11 +46,11 @@
                 </div>
             </div>
             @foreach ($displayBreaks as $index => $break)
-            <div class="form__group form__group--break">
-                <div class="form__group-title">
-                    <p class="form__label-break">{{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}</p>
+            <div class="detail__group detail__group--break">
+                <div class="detail__group-title">
+                    <p class="detail__label-break">{{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}</p>
                 </div>
-                <div class="form__group-content">
+                <div class="detail__group-content">
                     <div class="time-content">
                         <p class="time-content-display">
                             {{ optional($break->new_break_start_time)->format('H:i') }}
@@ -61,12 +61,12 @@
                 </div>
             </div>
             @endforeach
-            <div class="form__group form__group--comment">
-                <div class="form__group-title">
-                    <p class="form__label-comment">備考</p>
+            <div class="detail__group detail__group--comment">
+                <div class="detail__group-title">
+                    <p class="detail__label-comment">備考</p>
                 </div>
-                <div class="form__group-content">
-                    <div class="form__input-comment">
+                <div class="detail__group-content">
+                    <div class="detail__comment">
                         <p class="comment">{{ $application->comment }}</p>
                     </div>
                 </div>

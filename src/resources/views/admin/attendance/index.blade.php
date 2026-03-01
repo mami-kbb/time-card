@@ -25,7 +25,7 @@
                     <input type="date" name="date" class="date-select-form-input" value="{{ $currentDate->format('Y-m-d') }}" id="dateInput" onchange="this.form.submit()">
                 </div>
             </form>
-            <a href="/admin/attendance/list?date={{ $currentDate->copy()->addDay()->format('Y-m-d') }}" class="next-date">次日<img class="right-arrow__img" src="{{ asset('/images/arrow.png') }}" alt="←"></a>
+            <a href="/admin/attendance/list?date={{ $currentDate->copy()->addDay()->format('Y-m-d') }}" class="next-date">翌日<img class="right-arrow__img" src="{{ asset('/images/arrow.png') }}" alt="←"></a>
         </div>
         <table class="attendance-logs__table">
             <thead>

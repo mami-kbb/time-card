@@ -53,6 +53,7 @@
 .form__group-title {
     margin-left: 60px;
     width: 150px;
+    letter-spacing: 0.15em;
 }
 
 .form__label-name, .form__label-date, .form__label-time, .form__label-break, .form__label-comment {
@@ -62,6 +63,7 @@
 .form__group-content {
     width: 320px;
     margin-right: 250px;
+    letter-spacing: 0.15em;
 }
 
 .form__group-content-name {
@@ -69,14 +71,11 @@
 }
 
 .form__group-content-date {
-    width: 320px;
-    margin-right: 250px;
+    width: 300px;
+    margin-right: 300px;
     display: flex;
-}
-
-.year {
-    margin-left: 20px;
-    margin-right: 100px;
+    justify-content: space-around;
+    letter-spacing: 0.15em;
 }
 
 .form__input-time, .form__input-break, .time-content{
@@ -101,6 +100,7 @@
     border-radius: 4px;
     font-size: 16px;
     padding: 0;
+    letter-spacing: 0.15em;
 }
 
 input[type="time"]::-webkit-calendar-picker-indicator {
@@ -125,6 +125,8 @@ input[type="time"]::-webkit-inner-spin-button {
     padding: 10px;
     font-size: 16px;
     font-weight: bold;
+    color: #000;
+    letter-spacing: 0.15em;
 }
 
 .form__group--comment.is-pending {
@@ -164,6 +166,7 @@ textarea:disabled {
     font-size: 18px;
     font-weight: 800px;
     color: #FF000080;
+    letter-spacing: 0.15em;
 }
 
 .form-btn__submit {
@@ -177,4 +180,5 @@ textarea:disabled {
     background-color: #000;
     color: #fff;
     cursor: pointer;
+    letter-spacing: 0.15em;
 }

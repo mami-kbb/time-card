@@ -13,18 +13,15 @@
     margin: 50px auto;
 }
 
-.application-form {
-    width: 100%;
-}
-
-.form-area {
+.detail-area {
     width: 100%;
     border: 1px solid #E1E1E1;
     border-radius: 10px;
     background-color: #fff;
+    margin-bottom: 40px;
 }
 
-.form__group {
+.detail__group {
     width: 100%;
     height: 80px;
     margin: 0;
@@ -36,47 +33,51 @@
     font-weight: bold;
 }
 
-.form__group--time,
-.form__group--break {
+.detail__group--time,
+.detail__group--break {
     min-height: 40px;
     height: auto;
     padding: 20px 0;
     align-items: center;
 }
 
-.form__group--comment {
+.detail__group--comment {
     border: none;
     min-height: 140px;
     height: auto;
     align-items: center;
+    letter-spacing: 0.15em;
 }
 
-.form__group-title {
+.detail__group-title {
     margin-left: 60px;
     width: 150px;
+    letter-spacing: 0.15em;
 }
 
-.form__label-name,
-.form__label-date,
-.form__label-time,
-.form__label-break,
-.form__label-comment {
+.detail__label-name,
+.detail__label-date,
+.detail__label-time,
+.detail__label-break,
+.detail__label-comment {
     color: #737373;
 }
 
-.form__group-content {
+.detail__group-content {
     width: 320px;
     margin-right: 250px;
+    letter-spacing: 0.15em;
 }
 
-.form__group-content-name {
+.detail__group-content-name {
     margin-left: 25px;
 }
 
-.form__group-content-date {
+.detail__group-content-date {
     width: 320px;
     margin-right: 250px;
     display: flex;
+    letter-spacing: 0.15em;
 }
 
 .year {
@@ -84,8 +85,6 @@
     margin-right: 100px;
 }
 
-.form__input-time,
-.form__input-break,
 .time-content {
     width: 100%;
     display: flex;
@@ -113,22 +112,15 @@
     padding: 0;
 }
 
-input[type="time"]::-webkit-calendar-picker-indicator {
-    display: none;
-}
-
-input[type="time"]::-webkit-inner-spin-button {
-    display: none;
-}
-
-.form__group--comment {
+.detail__group--comment {
     min-height: 40px;
     height: auto;
     padding: 20px 0;
     align-items: center;
 }
 
-.form__input-comment {
+.detail__comment {
+    margin-left: 20px;
     width: 100%;
 }
 
@@ -145,15 +137,13 @@ input[type="time"]::-webkit-inner-spin-button {
     line-height: 1.8;
 }
 
-.form__error {
-    font-size: 15px;
-    margin-top: 5px;
-    padding: 0;
+.application-form {
+    width: 100%;
 }
 
 .form-btn {
     width: 100%;
-    margin: 10px 0;
+    margin: 20px 0;
     display: flex;
     justify-content: flex-end;
 }
@@ -171,6 +161,7 @@ input[type="time"]::-webkit-inner-spin-button {
     display: flex;
     justify-content: center;
     align-items: center;
+    letter-spacing: 0.15em;
 }
 
 .form-btn__submit {
@@ -185,4 +176,5 @@ input[type="time"]::-webkit-inner-spin-button {
     color: #fff;
     cursor: pointer;
     display: inline;
+    letter-spacing: 0.15em;
 }

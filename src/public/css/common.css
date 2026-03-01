@@ -50,8 +50,8 @@ html, body {
 }
 
 .content-header {
-    width: 900px;
-    margin: 0;
+    width: 950px;
+    margin: 0 auto;
 }
 
 .content-title {
@@ -63,7 +63,7 @@ html, body {
 
 .content-title span {
     display: inline-block;
-    margin-right: 10px;
+    margin: 0 10px 0 0;
     width: 40px;
     height: 0;
     border: 8px solid #000;

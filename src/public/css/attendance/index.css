@@ -34,6 +34,7 @@
     color: #737373;
     text-decoration: none;
     cursor: pointer;
+    letter-spacing: 0.15em;
 }
 
 .left-arrow__img,
@@ -103,7 +104,7 @@
 .attendance-logs__table td,
 .attendance-logs__table th {
     line-height: 1;
-    letter-spacing: 0;
+    letter-spacing: 0.15em;
     text-align: center;
     vertical-align: middle;
     padding: 15px 0;

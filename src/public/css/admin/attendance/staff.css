@@ -38,7 +38,7 @@
 .staff__table td,
 .staff__table th {
     line-height: 1;
-    letter-spacing: 0;
+    letter-spacing: 0.15em;
     text-align: center;
     vertical-align: middle;
     padding: 15px 0;
