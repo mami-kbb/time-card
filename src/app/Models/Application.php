@@ -13,14 +13,14 @@ class Application extends Model
         'attendance_id',
         'user_id',
         'approval_status',
-        'application_date',
+        'approval_at',
         'new_start_time',
         'new_end_time',
         'comment'
     ];
 
     protected $casts = [
-        'application_date' => 'date',
+        'approval_at' => 'date',
         'new_start_time' => 'datetime:H:i',
         'new_end_time' => 'datetime:H:i',
     ];

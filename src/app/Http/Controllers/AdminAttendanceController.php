@@ -120,6 +120,8 @@ class AdminAttendanceController extends Controller
             $endOfMonth
         );
 
+        $user = User::findOrFail($id);
+
         $attendances = Attendance::where('user_id', $id)
         ->whereBetween('work_date', [$startOfMonth, $endOfMonth])
         ->with('attendanceBreaks')
@@ -130,9 +132,15 @@ class AdminAttendanceController extends Controller
 
         $filename = "attendance_{$id}_{$currentMonth->format('Y-m')}.csv";
 
-        return response()->streamDownload(function () use ($attendances, $period) {
+        return response()->streamDownload(function () use ($attendances, $period, $user) {
 
             $file = fopen('php://output', 'w');
+
+            $nameRow = [$user->name . ' さんの勤怠一覧'];
+            mb_convert_variables('SJIS-win', 'UTF-8', $nameRow);
+            fputcsv($file, $nameRow);
+
+            fputcsv($file, []);
 
             $csvHeader = ['日付', '出勤', '退勤', '休憩', '合計'];
             mb_convert_variables('SJIS-win', 'UTF-8', $csvHeader);

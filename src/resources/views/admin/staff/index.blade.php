@@ -87,7 +87,7 @@
         </table>
     </div>
     <div class="csv-content">
-        <a href="/admin/attendance/staff/{{ $user->id }}/csv"
+        <a href="/admin/attendance/staff/{{ $user->id }}/csv?month={{ $currentMonth->format('Y-m') }}"
             class="csv-button">
             CSV出力
         </a>
