@@ -199,8 +199,6 @@ class UserAttendanceCorrectionTest extends TestCase
         $user = User::factory()->create([
             'email_verified_at' => now(),
         ]);
-
-        /** @var \App\Models\User $otherUser */
         $otherUser = User::factory()->create([
             'email_verified_at' => now(),
         ]);

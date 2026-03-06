@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Attendance;
 use App\Models\AttendanceBreak;
-use Illuminate\Bus\PendingBatch;
 use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
@@ -44,7 +43,6 @@ class AttendanceController extends Controller
         $today = now()->toDateString();
 
         Carbon::setLocale('ja');
-        $now = Carbon::now();
 
         $attendance = Attendance::firstOrCreate(
             ['user_id' => $user->id, 'work_date' => $today],

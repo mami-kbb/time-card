@@ -4,14 +4,13 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
-
 use App\Models\Attendance;
 use App\Models\AttendanceBreak;
-use Tests\TestCase;
 use Carbon\Carbon;
+use Tests\TestCase;
 use Illuminate\Support\Facades\App;
 
-class UserAttendanceListTest extends TestCase
+class AdminAttendanceListTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -21,35 +20,43 @@ class UserAttendanceListTest extends TestCase
         parent::tearDown();
     }
 
-    public function test_user_can_see_all_of_their_attendances()
+    public function test_admin_can_see_all_of_user_attendances_the_day()
     {
         /** @var \App\Models\User $user */
-        $user = User::factory()->create([
+        $user1 = User::factory()->create([
             'email_verified_at' => now(),
         ]);
 
-        /** @var \App\Models\User $otherUser */
+        $user2 = User::factory()->create([
+            'email_verified_at' => now(),
+        ]);
+
         $otherUser = User::factory()->create([
             'email_verified_at' => now(),
         ]);
 
+        /** @var \App\Models\User $admin */
+        $admin = User::factory()->create([
+            'role' => 1,
+        ]);
+
         $attendance1 = Attendance::factory()->create([
-            'user_id' => $user->id,
+            'user_id' => $user1->id,
             'work_date' => '2026-03-01',
             'start_time' => '09:00:00',
             'end_time' => '18:00:00',
         ]);
 
         $attendance2 = Attendance::factory()->create([
-            'user_id' => $user->id,
-            'work_date' => '2026-03-02',
+            'user_id' => $user2->id,
+            'work_date' => '2026-03-01',
             'start_time' => '10:00:00',
             'end_time' => '19:00:00',
         ]);
 
         Attendance::factory()->create([
             'user_id' => $otherUser->id,
-            'work_date' => '2026-03-03',
+            'work_date' => '2026-03-02',
             'start_time' => '08:00:00',
             'end_time' => '17:00:00',
         ]);
@@ -66,7 +73,7 @@ class UserAttendanceListTest extends TestCase
             'break_end_time' => '13:00:00',
         ]);
 
-        $response = $this->actingAs($user)->get('/attendance/list?month=2026-03');
+        $response = $this->actingAs($admin, 'admin')->get('/admin/attendance/list?date=2026-03-01');
 
         $response->assertStatus(200);
 
@@ -80,7 +87,7 @@ class UserAttendanceListTest extends TestCase
 
             $breakMinutes = $attendance->calculateTotalBreakTime();
             $breakHours = floor($breakMinutes / 60);
-            $breakMins =$breakMinutes % 60;
+            $breakMins = $breakMinutes % 60;
 
             if ($breakMinutes > 0) {
                 $response->assertSee(
@@ -97,10 +104,26 @@ class UserAttendanceListTest extends TestCase
             );
         }
 
-        $response->assertDontSee('08:00');
+        $response->assertDontSee($otherUser->name);
     }
 
-    public function test_current_month_is_displayed_on_attendance_list()
+    public function test_current_date_is_displayed_on_attendance_list()
+    {
+        Carbon::setTestNow(Carbon::create(2026, 3, 15));
+
+        /** @var \App\Models\User $admin */
+        $admin = User::factory()->create([
+            'role' => 1,
+        ]);
+
+        $response = $this->actingAs($admin, 'admin')
+            ->get('/admin/attendance/list');
+
+        $response->assertStatus(200);
+        $response->assertSee('2026/03/15');
+    }
+
+    public function test_previous_date_information_is_displayed()
     {
         Carbon::setTestNow(Carbon::create(2026, 3, 15));
 
@@ -109,116 +132,78 @@ class UserAttendanceListTest extends TestCase
             'email_verified_at' => now(),
         ]);
 
-        $response = $this->actingAs($user)
-            ->get('/attendance/list');
-
-        $response->assertStatus(200);
-
-        $response->assertSee('2026/03');
-    }
-
-    public function test_previous_month_information_is_displayed()
-    {
-        Carbon::setTestNow(Carbon::create(2026, 3, 15));
-
-        /** @var \App\Models\User $user */
-        $user = User::factory()->create([
-            'email_verified_at' => now(),
+        /** @var \App\Models\User $admin */
+        $admin = User::factory()->create([
+            'role' => 1,
         ]);
 
         Attendance::factory()->create([
             'user_id' => $user->id,
-            'work_date' => '2026-02-10',
+            'work_date' => '2026-03-14',
             'start_time' => '09:00:00',
             'end_time' => '18:00:00',
         ]);
 
         Attendance::factory()->create([
             'user_id' => $user->id,
-            'work_date' => '2026-03-10',
+            'work_date' => '2026-03-15',
             'start_time' => '10:00:00',
             'end_time' => '19:00:00',
         ]);
 
-        $response = $this->actingAs($user)
-            ->get('/attendance/list');
+        $response = $this->actingAs($admin, 'admin')
+            ->get('/admin/attendance/list');
+        $response->assertSee('/admin/attendance/list?date=2026-03-14');
 
-        $response->assertSee('/attendance/list?month=2026-02');
-
-        $response = $this->actingAs($user)
-        ->get('/attendance/list?month=2026-02');
+        $response = $this->actingAs($admin, 'admin')
+            ->get('/admin/attendance/list?date=2026-03-14');
 
         $response->assertStatus(200);
-        $response->assertSee('2026/02');
+        $response->assertSee('2026/03/14');
         $response->assertSee('09:00');
         $response->assertSee('18:00');
         $response->assertDontSee('10:00');
     }
 
-    public function test_next_month_information_is_displayed()
+    public function test_next_date_information_is_displayed()
     {
-        Carbon::setTestNow(Carbon::create(2026, 2, 15));
+        Carbon::setTestNow(Carbon::create(2026, 3, 15));
 
         /** @var \App\Models\User $user */
         $user = User::factory()->create([
             'email_verified_at' => now(),
         ]);
 
+        /** @var \App\Models\User $admin */
+        $admin = User::factory()->create([
+            'role' => 1,
+        ]);
+
         Attendance::factory()->create([
             'user_id' => $user->id,
-            'work_date' => '2026-03-10',
+            'work_date' => '2026-03-16',
             'start_time' => '09:00:00',
             'end_time' => '18:00:00',
         ]);
 
         Attendance::factory()->create([
             'user_id' => $user->id,
-            'work_date' => '2026-02-10',
+            'work_date' => '2026-03-15',
             'start_time' => '10:00:00',
             'end_time' => '19:00:00',
         ]);
 
-        $response = $this->actingAs($user)
-            ->get('/attendance/list');
+        $response = $this->actingAs($admin, 'admin')
+            ->get('/admin/attendance/list');
+        $response->assertSee('/admin/attendance/list?date=2026-03-16');
 
-        $response->assertSee('/attendance/list?month=2026-03');
-
-        $response = $this->actingAs($user)
-            ->get('/attendance/list?month=2026-03');
+        $response = $this->actingAs($admin, 'admin')
+            ->get('/admin/attendance/list?date=2026-03-16');
 
         $response->assertStatus(200);
-        $response->assertSee('2026/03');
+        $response->assertSee('2026/03/16');
         $response->assertSee('09:00');
         $response->assertSee('18:00');
         $response->assertDontSee('10:00');
-    }
-
-    public function test_user_can_see_the_day_detail_from_attendance_list()
-    {
-        Carbon::setTestNow(Carbon::create(2026, 3, 15));
-        App::setLocale('ja');
-
-        /** @var \App\Models\User $user */
-        $user = User::factory()->create([
-            'email_verified_at' => now(),
-        ]);
-
-        Attendance::factory()->create([
-            'user_id' => $user->id,
-            'work_date' => '2026-03-01',
-            'start_time' => '09:00:00',
-            'end_time' => '18:00:00',
-        ]);
-
-        $listResponse = $this->actingAs($user)
-            ->get('/attendance/list');
-
-        $listResponse->assertSee('/attendance/detail/2026-03-01');
-
-        $response = $this->actingAs($user)
-        ->get('/attendance/detail/2026-03-01');
-        $response->assertStatus(200);
-        $response->assertSee('2026年');
-        $response->assertSee('3月1日');
     }
 }

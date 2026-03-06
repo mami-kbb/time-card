@@ -71,6 +71,7 @@ DB_PASSWORD=root
 - MySQL 8.0.26
 - PHP 8.1-fpm
 - Laravel 8
+- Docker
 - mailhog
 
 ## 開発環境
