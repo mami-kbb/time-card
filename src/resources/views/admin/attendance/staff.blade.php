@@ -11,7 +11,7 @@
 @section('content')
 <div class="list-content">
     <div class="content-header">
-        <h2 class="content-title"><span></span>スタッフ一覧</h2>
+        <h2 class="content-title">スタッフ一覧</h2>
     </div>
     <div class="staff-list">
         <table class="staff__table">
@@ -19,7 +19,7 @@
                 <tr class="staff__table--row">
                     <th class="staff__table--header-name">名前</th>
                     <th class="staff__table--header-email">メールアドレス</th>
-                    <th class="attendance-logs__table--header-detail">月次勤怠</th>
+                    <th class="staff__table--header-detail">月次勤怠</th>
                 </tr>
             </thead>
             <tbody>

@@ -1,10 +1,7 @@
-* {
-    font-weight: bold;
-}
-
 .list-content {
     width: 100%;
     min-height: 100vh;
+    font-weight: bold;
     margin: 0 auto;
     background-color: #F0EFF2;
     display: flex;
@@ -96,28 +93,20 @@
     table-layout: fixed;
 }
 
-.attendance-logs__table--row {
-    display: flex;
-    justify-content: space-around;
-    padding-bottom: 20px;
-}
-
 .attendance-logs__table td,
 .attendance-logs__table th {
     line-height: 1;
     letter-spacing: 0.15em;
     text-align: center;
-    vertical-align: middle;
-    padding: 15px 0;
+    vertical-align: top;
+    padding: 15px 20px;
 }
 
 .attendance-logs__table thead tr {
-    height: 31px;
     border-bottom: 3px solid #E1E1E1;
 }
 
 .attendance-logs__table tbody tr {
-    height: 33px;
     border-bottom: 1px solid #E1E1E1;
 }
 
@@ -127,7 +116,7 @@
 
 .attendance-logs__table--header-name,
 .attendance-logs__table--content-name {
-    width: 93px;
+    width: 190px;
     text-align: left;
 }
 
@@ -139,7 +128,7 @@
 .attendance-logs__table--content-end,
 .attendance-logs__table--content-break,
 .attendance-logs__table--content-total {
-    width: 55px;
+    width: 145px;
 }
 
 .attendance-logs__table-detail {

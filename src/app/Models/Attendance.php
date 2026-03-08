@@ -65,4 +65,46 @@ class Attendance extends Model
 
         return $workMinutes - $this->calculateTotalBreakTime();
     }
+
+    public function getStartTimeFormattedAttribute()
+    {
+        return $this->start_time?->format('H:i');
+    }
+
+    public function getEndTimeFormattedAttribute()
+    {
+        return $this->end_time?->format('H:i');
+    }
+
+    public function formattedBreakTime()
+    {
+        $minutes = $this->calculateTotalBreakTime();
+
+        if ($minutes <= 0) {
+            return null;
+        }
+
+        $hours = floor($minutes / 60);
+        $minutes = $minutes % 60;
+
+        return $hours . ':' . str_pad($minutes, 2, '0', STR_PAD_LEFT);
+    }
+
+    public function formattedWorkTime()
+    {
+        if (!$this->start_time) {
+            return null;
+        }
+
+        if (!$this->end_time) {
+            return 'ー';
+        }
+
+        $minutes = $this->calculateTotalWorkTime();
+
+        $hours = floor($minutes / 60);
+        $minutes = $minutes % 60;
+
+        return $hours . ':' . str_pad($minutes, 2, '0', STR_PAD_LEFT);
+    }
 }

@@ -59,30 +59,25 @@
     margin: 30px auto;
 }
 
-.form-btn__submit {
+.stamp-btn {
     width: 100%;
     height: 100%;
     border-radius: 20px;
     font-size: 32px;
     font-weight: bold;
-    background-color: #000;
-    color: #fff;
     border: none;
     cursor: pointer;
     letter-spacing: 0.15em;
 }
 
-.break-form-btn__submit {
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
-    font-size: 32px;
-    font-weight: bold;
+.stamp-btn--primary {
+    background-color: #000;
+    color: #fff;
+}
+
+.stamp-btn--secondary {
     background-color: #fff;
     color: #000;
-    border: none;
-    cursor: pointer;
-    letter-spacing: 0.15em;
 }
 
 .message {

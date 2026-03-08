@@ -11,7 +11,7 @@
 @section('content')
 <div class="show-content">
     <div class="content-header">
-        <h2 class="content-title"><span></span>勤怠詳細</h2>
+        <h2 class="content-title">勤怠詳細</h2>
     </div>
     <div class="detail">
         <form action="/attendance/detail/{{ $workDate->format('Y-m-d') }}" class="application-form" method="post" onsubmit="{{ $isPending ? 'return false;' : '' }}">

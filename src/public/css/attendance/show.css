@@ -103,14 +103,6 @@
     letter-spacing: 0.15em;
 }
 
-input[type="time"]::-webkit-calendar-picker-indicator {
-    display: none;
-}
-
-input[type="time"]::-webkit-inner-spin-button {
-    display: none;
-}
-
 .form__input-comment {
     width: 100%;
 }
@@ -164,7 +156,7 @@ textarea:disabled {
 .pending-message {
     margin: 10px 0;
     font-size: 18px;
-    font-weight: 800px;
+    font-weight: 800;
     color: #FF000080;
     letter-spacing: 0.15em;
 }

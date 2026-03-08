@@ -30,17 +30,16 @@
     </div>
     <div class="day-content">
         <p class="date">{{ $now->translatedFormat('Y年n月j日(D)') }}</p>
-        <p class="time">{{ $now->translatedFormat('H:i') }}</p>
+        <p class="time" id="clock"></p>
     </div>
     <div class="buttons">
         @switch($status)
         @case('off')
-        <form class="stamp-form
-        " method="POST" action="/attendance">
+        <form class="stamp-form" method="POST" action="/attendance">
             @csrf
             <input type="hidden" name="action" value="start">
             <div class="form-btn">
-                <button class="form-btn__submit" type="submit">出勤</button>
+                <button class="stamp-btn stamp-btn--primary" type="submit">出勤</button>
             </div>
         </form>
         @break
@@ -50,14 +49,14 @@
                 @csrf
                 <input type="hidden" name="action" value="end">
                 <div class="form-btn">
-                    <button class="form-btn__submit" type="submit">退勤</button>
+                    <button class="stamp-btn stamp-btn--primary" type="submit">退勤</button>
                 </div>
             </form>
             <form class="stamp-form" method="POST" action="/attendance">
                 @csrf
                 <input type="hidden" name="action" value="break_start">
                 <div class="form-btn">
-                    <button class="break-form-btn__submit" type="submit">休憩入</button>
+                    <button class="stamp-btn stamp-btn--secondary" type="submit">休憩入</button>
                 </div>
             </form>
         </div>
@@ -69,7 +68,7 @@
             @csrf
             <input type="hidden" name="action" value="break_end">
             <div class="form-btn">
-                <button class="break-form-btn__submit" type="submit">休憩戻</button>
+                <button class="stamp-btn stamp-btn--secondary" type="submit">休憩戻</button>
             </div>
         </form>
         @break
@@ -80,3 +79,15 @@
     </div>
 </div>
 @endsection
+
+<script>
+    function updateTime() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById("clock").textContent = h + ":" + m;
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+</script>

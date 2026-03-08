@@ -30,11 +30,12 @@ class AdminAttendanceController extends Controller
 
     public function show(User $user, $date)
     {
-        $attendance = Attendance::where('user_id', $user->id)
+        $attendance = Attendance::with(['attendanceBreaks', 'applications'])
+        ->where('user_id', $user->id)
         ->whereDate('work_date', $date)
         ->first();
 
-        $workDate = Carbon::parse($attendance->work_date);
+        $workDate = Carbon::parse($date);
 
         $application = $attendance?->applications()?->latest()->first();
         $isPending = $application?->approval_status === 0;
@@ -44,19 +45,22 @@ class AdminAttendanceController extends Controller
         $displayBreaks    = collect();
         $isEditable       = true;
 
-        if ($isPending) {
-            $displayStartTime = $application->new_start_time;
-            $displayEndTime   = $application->new_end_time;
-            $displayBreaks    = $application->applicationBreaks ?? collect();
-            $isEditable       = false;
-        } else {
-            $displayStartTime = $attendance->start_time;
-            $displayEndTime   = $attendance->end_time;
-            $displayBreaks    = $attendance->attendanceBreaks ?? collect();
-            $isEditable       = true;
+        if ($attendance) {
+            if ($isPending) {
+                $displayStartTime = $application->new_start_time;
+                $displayEndTime   = $application->new_end_time;
+                $displayBreaks    = $application->applicationBreaks ?? collect();
+                $isEditable       = false;
+            } else {
+                $displayStartTime = $attendance->start_time;
+                $displayEndTime   = $attendance->end_time;
+                $displayBreaks    = $attendance->attendanceBreaks ?? collect();
+                $isEditable       = true;
+            }
         }
 
         return view('admin.attendance.show', compact(
+            'user',
             'workDate',
             'attendance',
             'application',

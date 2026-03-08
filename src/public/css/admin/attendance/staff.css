@@ -1,11 +1,8 @@
-* {
-    font-weight: bold;
-    font-size: 16px;
-}
-
 .list-content {
     width: 100%;
     min-height: 100vh;
+    font-weight: bold;
+    font-size: 16px;
     margin: 0 auto;
     background-color: #F0EFF2;
     display: flex;
@@ -30,9 +27,7 @@
 }
 
 .staff__table--row {
-    display: flex;
-    justify-content: space-around;
-    padding: 0 60px 20px;
+    padding: 0 30px 7px;
 }
 
 .staff__table td,
@@ -40,17 +35,15 @@
     line-height: 1;
     letter-spacing: 0.15em;
     text-align: center;
-    vertical-align: middle;
-    padding: 15px 0;
+    vertical-align: top;
+    padding: 13px 0 12px;
 }
 
 .staff__table thead tr {
-    height: 31px;
     border-bottom: 3px solid #E1E1E1;
 }
 
 .staff__table tbody tr {
-    height: 33px;
     border-bottom: 1px solid #E1E1E1;
 }
 
@@ -60,13 +53,13 @@
 
 .staff__table--header-name,
 .staff__table--content-name {
-    width: 100px;
+    width: 70px;
     text-align: left;
 }
 
 .staff__table--header-email,
 .staff__table--content-email {
-    width: 335px;
+    width: 100px;
 }
 
 .staff__table--header-detail,

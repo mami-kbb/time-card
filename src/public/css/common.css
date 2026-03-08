@@ -2,6 +2,14 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 .header {
@@ -36,6 +44,11 @@ html, body {
     gap: 40px;
 }
 
+.header-nav__form {
+    margin: 0;
+    padding: 0;
+}
+
 .header-nav__btn {
     color: #fff;
     font-size: 24px;
@@ -56,18 +69,19 @@ html, body {
 
 .content-title {
     width: 100%;
-    margin: 0;
-    padding-top: 90px;
+    margin-left: 20px;
+    padding-top: 70px;
     font-size: 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
-.content-title span {
-    display: inline-block;
-    margin: 0 10px 0 0;
-    width: 40px;
-    height: 0;
-    border: 8px solid #000;
-    transform: rotate(90deg);
+.content-title::before {
+    content: "";
+    width: 8px;
+    height: 40px;
+    background: #000;
 }
 
 input {
