@@ -26,6 +26,11 @@ DB_PASSWORD=laravel_pass
 5. php artisan key:generate
 6. php artisan migrate
 7. php artisan db:seed
+8. chmod -R 777 storage
+9. chmod -R 777 bootstrap/cache
+
+※ storage と bootstrap/cache は Laravel がログやキャッシュを書き込むために
+書き込み権限が必要です。
 
 ## Mail 設定（開発環境）
 
@@ -85,6 +90,7 @@ password: test1234
 - PHP 8.1-fpm
 - MySQL 8.0.26
 - Docker
+- Nginx
 - MailHog
 
 ## 開発環境

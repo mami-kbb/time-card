@@ -30,7 +30,7 @@
     </div>
     <div class="day-content">
         <p class="date">{{ $now->translatedFormat('Y年n月j日(D)') }}</p>
-        <p class="time" id="clock"></p>
+        <p class="time" id="clock">{{ $now->format('H:i') }}</p>
     </div>
     <div class="buttons">
         @switch($status)
