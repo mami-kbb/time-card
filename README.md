@@ -120,6 +120,28 @@ password: test1234
 ## ER 図
 ![image](er.png)
 
+## トラブルシューティング
+
+### storage ディレクトリの書き込み権限エラー
+
+環境によっては以下のようなエラーが発生する場合があります。
+
+Permission denied  
+storage/logs/laravel.log
+
+その場合はコンテナ内で以下を実行してください。
+
+```
+chmod -R 777 storage
+chmod -R 777 bootstrap/cache
+```
+
+それでも解決しない場合は、ホスト側で所有者を変更してください。
+
+```
+sudo chown -R $USER:$USER .
+```
+
 ## 追記事項
 
 - 勤怠詳細画面のルーティングについて

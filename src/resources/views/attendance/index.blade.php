@@ -25,7 +25,7 @@
                     <input type="month" name="month" class="month-select-form-input" value="{{ $currentMonth->format('Y-m') }}" id="monthInput" onchange="this.form.submit()">
                 </div>
             </form>
-            <a href="/attendance/list?month={{ $currentMonth->copy()->addMonth()->format('Y-m') }}" class="next-month">次月<img class="right-arrow__img" src="{{ asset('/images/arrow.png') }}" alt="←"></a>
+            <a href="/attendance/list?month={{ $currentMonth->copy()->addMonth()->format('Y-m') }}" class="next-month">翌月<img class="right-arrow__img" src="{{ asset('/images/arrow.png') }}" alt="←"></a>
         </div>
         <table class="attendance-logs__table">
             <thead>
