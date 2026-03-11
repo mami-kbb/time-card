@@ -11,7 +11,7 @@
 @section('content')
 <div class="list-content">
     <div class="content-header">
-        <h2 class="content-title">{{ $user->name }}さんの勤怠</h2>
+        <h1 class="content-title">{{ $user->name }}さんの勤怠</h1>
     </div>
     <div class="month-list">
         <div class="month-header">

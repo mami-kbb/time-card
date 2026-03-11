@@ -11,7 +11,7 @@
 @section('content')
 <div class="show-content">
     <div class="content-header">
-        <h2 class="content-title">勤怠詳細</h2>
+        <h1 class="content-title">勤怠詳細</h1>
     </div>
     <div class="detail">
         <div class="detail-area">

@@ -11,7 +11,7 @@
 @section('content')
 <div class="request-list__content">
     <div class="content-header">
-        <h2 class="content-title">申請一覧</h2>
+        <h1 class="content-title">申請一覧</h1>
     </div>
     <div class="tabs">
         <a href="/stamp_correction_request/list?tab=pending" class="{{ $tab === 'pending' ? 'active' : '' }}">承認待ち</a>

@@ -11,7 +11,7 @@
 @section('content')
 <div class="list-content">
     <div class="content-header">
-        <h2 class="content-title">{{ $currentDate->format('Y年n月j日') }}の勤怠</h2>
+        <h1 class="content-title">{{ $currentDate->format('Y年n月j日') }}の勤怠</h1>
     </div>
     <div class="attendance-list">
         <div class="date-header">
