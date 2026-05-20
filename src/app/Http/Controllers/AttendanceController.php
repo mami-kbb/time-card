@@ -50,9 +50,9 @@ class AttendanceController extends Controller
         );
 
         switch ($request->action) {
-            case 'start';
+            case 'start':
                 break;
-            case 'end';
+            case 'end':
                 if ($attendance->end_time) {
                     return redirect()->back();
                 }
@@ -66,13 +66,13 @@ class AttendanceController extends Controller
                     'total_time' => $attendance->calculateTotalWorkTime(),
                 ]);
                 break;
-            case 'break_start';
+            case 'break_start':
                 AttendanceBreak::create([
                     'attendance_id' => $attendance->id,
                     'break_start_time' => now(),
                 ]);
                 break;
-            case 'break_end';
+            case 'break_end':
                 AttendanceBreak::where('attendance_id', $attendance->id)
                 ->latest()
                 ->first()

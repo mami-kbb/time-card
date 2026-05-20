@@ -37,7 +37,7 @@ class AdminAttendanceController extends Controller
 
         $workDate = Carbon::parse($date);
 
-        $application = $attendance?->applications()?->latest()->first();
+        $application = $attendance?->applications()->latest()->first();
         $isPending = $application?->approval_status === 0;
 
         $displayStartTime = null;
@@ -72,7 +72,7 @@ class AdminAttendanceController extends Controller
         ));
     }
 
-    public function staff(Request $request)
+    public function staff()
     {
         $users = User::where('role', 0)->get();
         return view('admin.attendance.staff', compact('users'));
